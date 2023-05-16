@@ -260,5 +260,26 @@ jobs:
       with:
         path: ~/Library/Caches/lima/download
         key: ${{ runner.os }}-vz
+    - name: List processes before Test
+      shell: bash
+      run: |
+        ps -a -x -f -o "ruser pid ppid pcpu pmem vsz rss tty stat start time command" | tee "ps-before.txt"
     - name: Test
-      run: ./hack/test-example.sh examples/experimental/vz.yaml
+      run: |
+        df -h
+        nohup ./hack/test-example.sh examples/experimental/vz.yaml
+    - name: Print nohup recorded output
+      if: ${{ always() }}
+      shell: bash
+      run: |
+        if [[ -f nohup.out ]]; then
+          cat nohup.out
+        else
+          echo "nohup.out not found"
+        fi
+    - name: List processes after Test
+      if: ${{ always() }}
+      shell: bash
+      run: |
+        df -h
+        ps -a -x -f -o "ruser pid ppid pcpu pmem vsz rss tty stat start time command" | tee "ps-after.txt"
