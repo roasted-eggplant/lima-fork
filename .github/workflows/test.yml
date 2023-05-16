@@ -267,7 +267,7 @@ jobs:
     - name: Test
       run: |
         df -h
-        nohup ./hack/test-example.sh examples/experimental/vz.yaml
+        ./hack/test-example.sh examples/experimental/vz.yaml
     - name: Print nohup recorded output
       if: ${{ always() }}
       shell: bash
