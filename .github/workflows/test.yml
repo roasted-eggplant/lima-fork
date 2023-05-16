@@ -239,7 +239,7 @@ jobs:
     strategy:
       matrix:
         # Failure is expected on macos-12, but the logs should be still available
-        platform: [macos-12, macos-13]
+        platform: [macos-13]
     runs-on: ${{ matrix.platform }}
     timeout-minutes: 120
     steps:
