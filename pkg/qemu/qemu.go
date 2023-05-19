@@ -380,7 +380,7 @@ func Cmdline(cfg Config) (string, []string, error) {
 			}
 		}
 	}
-	args = appendArgsIfNoConflict(args, "-cpu", cpu)
+	// args = appendArgsIfNoConflict(args, "-cpu", cpu)
 
 	switch *y.Arch {
 	case limayaml.X8664:
