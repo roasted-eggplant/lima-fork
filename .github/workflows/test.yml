@@ -263,7 +263,7 @@ jobs:
     - name: List processes before Test
       shell: bash
       run: |
-        ps -a -x -f -o "ruser pid ppid pcpu pmem vsz rss tty stat start time command" | tee "ps-before.txt"
+        qemu-system-x86_64 -cpu help
     - name: Test
       run: |
         df -h
