@@ -4,9 +4,7 @@ vmType: "vz"
 rosetta:
   # Enable Rosetta for Linux.
   # Hint: try `softwareupdate --install-rosetta` if Lima gets stuck at `Installing rosetta...`
-  enabled: true
-  # Register rosetta to /proc/sys/fs/binfmt_misc
-  binfmt: true
+  enabled: false
 
 images:
 - location: "https://cloud-images.ubuntu.com/releases/22.04/release/ubuntu-22.04-server-cloudimg-amd64.img"
@@ -19,6 +17,8 @@ mounts:
 - location: "/tmp/lima"
   writable: true
 mountType: "virtiofs"
+
+cpus: 1
 
 networks:
 # The "vzNAT" IP address is accessible from the host, but not from other guests.

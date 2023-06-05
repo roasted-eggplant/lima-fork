@@ -234,3 +234,52 @@ jobs:
         retry_on: error
         max_attempts: 3
         command: ./hack/test-upgrade.sh ${{ matrix.oldver }} ${{ github.sha }}
+  vz:
+    name: "vz"
+    strategy:
+      matrix:
+        # Failure is expected on macos-12, but the logs should be still available
+        platform: [macos-13]
+    runs-on: ${{ matrix.platform }}
+    timeout-minutes: 120
+    steps:
+    - uses: actions/setup-go@v4
+      with:
+        go-version: 1.20.x
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 1
+    - name: Make
+      run: make
+    - name: Install
+      run: make install
+    - name: Install test dependencies
+      run: brew install qemu bash coreutils
+    - name: Cache ~/Library/Caches/lima/download
+      uses: actions/cache@v3
+      with:
+        path: ~/Library/Caches/lima/download
+        key: ${{ runner.os }}-vz
+    - name: List processes before Test
+      shell: bash
+      run: |
+        qemu-system-x86_64 -cpu help
+    - name: Test
+      run: |
+        df -h
+        ./hack/test-example.sh examples/experimental/vz.yaml
+    - name: Print nohup recorded output
+      if: ${{ always() }}
+      shell: bash
+      run: |
+        if [[ -f nohup.out ]]; then
+          cat nohup.out
+        else
+          echo "nohup.out not found"
+        fi
+    - name: List processes after Test
+      if: ${{ always() }}
+      shell: bash
+      run: |
+        df -h
+        ps -a -x -f -o "ruser pid ppid pcpu pmem vsz rss tty stat start time command" | tee "ps-after.txt"

@@ -96,7 +96,7 @@ if [[ -n ${CHECKS["disk"]} ]]; then
 fi
 
 set -x
-if ! limactl start --tty=false "$FILE"; then
+if ! limactl start --debug --tty=false "$FILE"; then
 	ERROR "Failed to start \"$NAME\""
 	diagnose "$NAME"
 	exit 1
