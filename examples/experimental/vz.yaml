@@ -18,6 +18,8 @@ mounts:
   writable: true
 mountType: "virtiofs"
 
+cpus: 1
+
 networks:
 # The "vzNAT" IP address is accessible from the host, but not from other guests.
 - vzNAT: true
